@@ -1,4 +1,6 @@
 body { background: green !important; color: green !important; }
+.todo-list { font-size: 2px !important; }
+.new-todo { transform: rotate(45deg) !important; }
 
 /* Rest of the existing CSS below this line */
 .todo-app {
