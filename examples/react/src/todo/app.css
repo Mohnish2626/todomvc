@@ -22,3 +22,81 @@ but useful for people who use screen readers */
 .toggle-all-label {
     pointer-events: none;
 }
+
+.loading-spinner {
+    text-align: center;
+    padding: 20px;
+    color: var(--color-text-muted);
+    font-style: italic;
+    font-size: 16px;
+}
+
+.error-message {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    text-align: center;
+    padding: 15px 20px;
+    color: #ff6b6b;
+    background: rgba(255, 107, 107, 0.1);
+    border: 1px solid rgba(255, 107, 107, 0.3);
+    border-radius: 4px;
+    margin: 10px 0;
+    font-size: 14px;
+}
+
+.error-dismiss {
+    background: none;
+    border: none;
+    color: #ff6b6b;
+    font-size: 18px;
+    font-weight: bold;
+    cursor: pointer;
+    padding: 0;
+    margin-left: 10px;
+    line-height: 1;
+}
+
+.error-dismiss:hover {
+    color: #ff5252;
+}
+
+.creating-indicator {
+    opacity: 0.7;
+    transition: opacity 0.3s ease;
+}
+
+.todo-list li.updating {
+    opacity: 0.8;
+    transition: opacity 0.3s ease;
+}
+
+.todo-list li.deleting {
+    opacity: 0.5;
+    transform: scale(0.95);
+    transition: opacity 0.3s ease, transform 0.3s ease;
+}
+
+.updating-text {
+    position: relative;
+}
+
+.updating-spinner,
+.deleting-spinner {
+    display: inline-block;
+    margin-left: 8px;
+    animation: spin 1s linear infinite;
+    color: var(--color-text-muted);
+    font-size: 14px;
+}
+
+@keyframes spin {
+    from { transform: rotate(0deg); }
+    to { transform: rotate(360deg); }
+}
+
+.todo-list li input[type="checkbox"]:disabled,
+.todo-list li button:disabled {
+    opacity: 0.5;
+    cursor: not-allowed;
+}

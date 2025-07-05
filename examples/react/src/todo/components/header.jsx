@@ -2,10 +2,10 @@ import { useCallback } from "react";
 import { Input } from "./input";
 import { ThemeToggle } from "./theme-toggle";
 
-import { ADD_ITEM } from "../constants";
+import { createTodo } from "../actions";
 
-export function Header({ dispatch, theme }) {
-    const addItem = useCallback((title) => dispatch({ type: ADD_ITEM, payload: { title } }), [dispatch]);
+export function Header({ dispatch, theme, creating }) {
+    const addItem = useCallback((title) => createTodo(dispatch)(title), [dispatch]);
 
     return (
         <header className="header" data-testid="header">
@@ -13,7 +13,9 @@ export function Header({ dispatch, theme }) {
                 <h1>todos</h1>
                 <ThemeToggle dispatch={dispatch} theme={theme} />
             </div>
-            <Input onSubmit={addItem} label="New Todo Input" placeholder="What needs to be done?" />
+            <div className={creating ? "creating-indicator" : ""}>
+                <Input onSubmit={addItem} placeholder="What needs to be done?" label="New Todo Input" />
+            </div>
         </header>
     );
 }

@@ -1,4 +1,11 @@
-import { ADD_ITEM, UPDATE_ITEM, REMOVE_ITEM, TOGGLE_ITEM, REMOVE_ALL_ITEMS, TOGGLE_ALL, REMOVE_COMPLETED_ITEMS, TOGGLE_THEME } from "./constants";
+import { 
+    ADD_ITEM, UPDATE_ITEM, REMOVE_ITEM, TOGGLE_ITEM, REMOVE_ALL_ITEMS, TOGGLE_ALL, REMOVE_COMPLETED_ITEMS, TOGGLE_THEME,
+    FETCH_TODOS_START, FETCH_TODOS_SUCCESS, FETCH_TODOS_ERROR,
+    CREATE_TODO_START, CREATE_TODO_SUCCESS, CREATE_TODO_ERROR,
+    UPDATE_TODO_START, UPDATE_TODO_SUCCESS, UPDATE_TODO_ERROR,
+    DELETE_TODO_START, DELETE_TODO_SUCCESS, DELETE_TODO_ERROR,
+    CLEAR_ERROR
+} from "./constants";
 
 /* Borrowed from https://github.com/ai/nanoid/blob/3.0.2/non-secure/index.js
 
@@ -44,6 +51,78 @@ function nanoid(size = 21) {
 
 export const appReducer = (state, action) => {
     switch (action.type) {
+        case FETCH_TODOS_START:
+            return { ...state, loading: true, error: null };
+        case FETCH_TODOS_SUCCESS:
+            return { ...state, todos: action.payload, loading: false, error: null };
+        case FETCH_TODOS_ERROR:
+            return { ...state, loading: false, error: action.payload };
+
+        case CREATE_TODO_START:
+            return { 
+                ...state, 
+                todos: [...state.todos, action.payload],
+                creating: true,
+                error: null
+            };
+        case CREATE_TODO_SUCCESS:
+            return { 
+                ...state, 
+                todos: state.todos.map(todo => 
+                    todo.id === action.payload.tempId 
+                        ? { ...action.payload, id: action.payload.id }
+                        : todo
+                ),
+                creating: false 
+            };
+        case CREATE_TODO_ERROR:
+            return { 
+                ...state, 
+                todos: state.todos.filter(todo => todo.id !== action.payload.tempId),
+                creating: false, 
+                error: action.payload.error 
+            };
+
+        case UPDATE_TODO_START:
+            return { ...state, updating: action.payload.id };
+        case UPDATE_TODO_SUCCESS:
+            return { 
+                ...state, 
+                todos: state.todos.map(todo => 
+                    todo.id === action.payload.id ? action.payload : todo
+                ),
+                updating: null 
+            };
+        case UPDATE_TODO_ERROR:
+            return { 
+                ...state, 
+                todos: state.todos.map(todo => 
+                    todo.id === action.payload.id 
+                        ? { ...todo, ...action.payload.updates }
+                        : todo
+                ),
+                updating: null, 
+                error: action.payload.error 
+            };
+
+        case DELETE_TODO_START:
+            return { ...state, deleting: action.payload.id };
+        case DELETE_TODO_SUCCESS:
+            return { 
+                ...state, 
+                todos: state.todos.filter(todo => todo.id !== action.payload.id),
+                deleting: null 
+            };
+        case DELETE_TODO_ERROR:
+            return { 
+                ...state, 
+                deleting: null, 
+                error: action.payload.error 
+            };
+
+        case CLEAR_ERROR:
+            return { ...state, error: null };
+
         case ADD_ITEM:
             return { ...state, todos: state.todos.concat({ id: nanoid(), title: action.payload.title, completed: false }) };
         case UPDATE_ITEM:
