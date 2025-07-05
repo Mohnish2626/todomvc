@@ -1,11 +1,4 @@
-body { background: green !important; color: green !important; }
-.todo-list { font-size: 2px !important; }
-.new-todo { transform: rotate(45deg) !important; }
-
-/* Rest of the existing CSS below this line */
-.todo-app {
-  /* existing styles... */
-}/* used for things that should be hidden in the ui,
+/* used for things that should be hidden in the ui,
 but useful for people who use screen readers */
 .visually-hidden {
     border: 0;
