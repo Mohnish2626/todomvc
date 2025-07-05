@@ -18,7 +18,7 @@ export function Main({ todos, dispatch }) {
                 if (route === "/completed")
                     return todo.completed;
 
-                return todo;
+                return true;
             }),
         [todos, route]
     );
