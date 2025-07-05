@@ -3,15 +3,15 @@ import classnames from "classnames";
 
 import { Input } from "./input";
 
-import { TOGGLE_ITEM, REMOVE_ITEM, UPDATE_ITEM } from "../constants";
+import { updateTodo, deleteTodo } from "../actions";
 
-export const Item = memo(function Item({ todo, dispatch, index }) {
+export const Item = memo(function Item({ todo, dispatch, index, isUpdating, isDeleting }) {
     const [isWritable, setIsWritable] = useState(false);
     const { title, completed, id } = todo;
 
-    const toggleItem = useCallback(() => dispatch({ type: TOGGLE_ITEM, payload: { id } }), [dispatch]);
-    const removeItem = useCallback(() => dispatch({ type: REMOVE_ITEM, payload: { id } }), [dispatch]);
-    const updateItem = useCallback((id, title) => dispatch({ type: UPDATE_ITEM, payload: { id, title } }), [dispatch]);
+    const toggleItem = useCallback(() => updateTodo(dispatch)(id, { ...todo, completed: !completed }), [dispatch, id, todo, completed]);
+    const removeItem = useCallback(() => deleteTodo(dispatch)(id), [dispatch, id]);
+    const updateItem = useCallback((newTitle) => updateTodo(dispatch)(id, { ...todo, title: newTitle }), [dispatch, id, todo]);
 
     const handleDoubleClick = useCallback(() => {
         setIsWritable(true);
@@ -22,29 +22,51 @@ export const Item = memo(function Item({ todo, dispatch, index }) {
     }, []);
 
     const handleUpdate = useCallback(
-        (title) => {
-            if (title.length === 0)
-                removeItem(id);
+        (newTitle) => {
+            if (newTitle.length === 0)
+                removeItem();
             else
-                updateItem(id, title);
+                updateItem(newTitle);
 
             setIsWritable(false);
         },
-        [id, removeItem, updateItem]
+        [removeItem, updateItem]
     );
 
     return (
-        <li className={classnames({ completed: todo.completed })} data-testid="todo-item">
+        <li className={classnames({ 
+            completed: todo.completed,
+            updating: isUpdating,
+            deleting: isDeleting
+        })} data-testid="todo-item">
             <div className="view">
                 {isWritable ? (
                     <Input onSubmit={handleUpdate} label="Edit Todo Input" defaultValue={title} onBlur={handleBlur} />
                 ) : (
                     <>
-                        <input className="toggle" type="checkbox" data-testid="todo-item-toggle" checked={completed} onChange={toggleItem} />
-                        <label data-testid="todo-item-label" onDoubleClick={handleDoubleClick}>
+                        <input 
+                            className="toggle" 
+                            type="checkbox" 
+                            data-testid="todo-item-toggle" 
+                            checked={completed} 
+                            onChange={toggleItem}
+                            disabled={isUpdating || isDeleting}
+                        />
+                        <label 
+                            data-testid="todo-item-label" 
+                            onDoubleClick={handleDoubleClick}
+                            className={isUpdating ? "updating-text" : ""}
+                        >
                             {title}
+                            {isUpdating && <span className="updating-spinner">⟳</span>}
                         </label>
-                        <button className="destroy" data-testid="todo-item-button" onClick={removeItem} />
+                        <button 
+                            className="destroy" 
+                            data-testid="todo-item-button" 
+                            onClick={removeItem}
+                            disabled={isUpdating || isDeleting}
+                        />
+                        {isDeleting && <span className="deleting-spinner">⟳</span>}
                     </>
                 )}
             </div>
