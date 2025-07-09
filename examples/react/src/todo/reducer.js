@@ -38,6 +38,11 @@ CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN THE SOFTWARE. */
 // `-26T`, `1983`, `40px`, `75px`, `bush`, `jack`, `mind`, `very`, and `wolf`
 let urlAlphabet = "useandom-26T198340PX75pxJACKVERYMINDBUSHWOLF_GQZbfghjklqvwyzrict";
 
+/**
+ * Generates a unique ID string
+ * @param {number} size - Length of the generated ID
+ * @returns {string} Unique identifier
+ */
 function nanoid(size = 21) {
     let id = "";
     // A compact alternative for `for (var i = 0; i < step; i++)`.
@@ -49,6 +54,12 @@ function nanoid(size = 21) {
     return id;
 }
 
+/**
+ * Main application reducer handling todos, theme, and async states
+ * @param {Object} state - Current application state
+ * @param {Object} action - Action object with type and payload
+ * @returns {Object} New application state
+ */
 export const appReducer = (state, action) => {
     switch (action.type) {
         case FETCH_TODOS_START:
@@ -66,11 +77,12 @@ export const appReducer = (state, action) => {
                 error: null
             };
         case CREATE_TODO_SUCCESS:
+            const { tempId, ...createdTodo } = action.payload;
             return { 
                 ...state, 
                 todos: state.todos.map(todo => 
-                    todo.id === action.payload.tempId 
-                        ? { ...action.payload, id: action.payload.id }
+                    todo.id === tempId 
+                        ? createdTodo
                         : todo
                 ),
                 creating: false 

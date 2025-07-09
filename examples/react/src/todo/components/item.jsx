@@ -1,10 +1,20 @@
-import { memo, useState, useCallback } from "react";
+import React, { memo, useState, useCallback } from "react";
 import classnames from "classnames";
 
 import { Input } from "./input";
 
 import { updateTodo, deleteTodo } from "../actions";
 
+/**
+ * Individual todo item component with editing, completion, and deletion functionality
+ * @param {Object} props - Component props
+ * @param {Object} props.todo - Todo object
+ * @param {Function} props.dispatch - Dispatch function for actions
+ * @param {number} props.index - Index of the todo item
+ * @param {boolean} props.isUpdating - Whether this todo is being updated
+ * @param {boolean} props.isDeleting - Whether this todo is being deleted
+ * @returns {JSX.Element} Todo item component
+ */
 export const Item = memo(function Item({ todo, dispatch, index, isUpdating, isDeleting }) {
     const [isWritable, setIsWritable] = useState(false);
     const { title, completed, id } = todo;

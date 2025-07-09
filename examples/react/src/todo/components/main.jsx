@@ -1,4 +1,4 @@
-import { useMemo, useCallback } from "react";
+import React, { useMemo, useCallback } from "react";
 import { useLocation } from "react-router-dom";
 
 import { Item } from "./item";
@@ -7,6 +7,13 @@ import classnames from "classnames";
 import { TOGGLE_ALL } from "../constants";
 import { clearError } from "../actions";
 
+/**
+ * Main component displaying the todo list, loading states, and error messages
+ * @param {Object} props - Component props
+ * @param {Object} props.state - Application state
+ * @param {Function} props.dispatch - Dispatch function for actions
+ * @returns {JSX.Element} Main component
+ */
 export function Main({ state, dispatch }) {
     const { pathname: route } = useLocation();
     const { todos, loading, error, updating, deleting } = state;

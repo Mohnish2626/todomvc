@@ -1,4 +1,4 @@
-import { useReducer, useEffect } from "react";
+import React, { useReducer, useEffect } from "react";
 import { Header } from "./components/header";
 import { Main } from "./components/main";
 import { Footer } from "./components/footer";
@@ -8,6 +8,10 @@ import { fetchTodos } from "./actions";
 
 import "./app.css";
 
+/**
+ * Main TodoMVC application component with API integration and theme support
+ * @returns {JSX.Element} The complete TodoMVC application
+ */
 export function App() {
     const [state, dispatch] = useReducer(appReducer, { 
         todos: [], 

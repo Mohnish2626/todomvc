@@ -1,6 +1,11 @@
 import { todoAPI } from './services/api';
 import * as types from './constants';
 
+/**
+ * Fetches todos from the API and dispatches appropriate actions
+ * @param {Function} dispatch - Redux-style dispatch function
+ * @returns {Function} Async function that performs the fetch operation
+ */
 export const fetchTodos = (dispatch) => async () => {
   dispatch({ type: types.FETCH_TODOS_START });
   try {
@@ -11,6 +16,11 @@ export const fetchTodos = (dispatch) => async () => {
   }
 };
 
+/**
+ * Creates a new todo with optimistic updates
+ * @param {Function} dispatch - Redux-style dispatch function
+ * @returns {Function} Async function that creates a todo
+ */
 export const createTodo = (dispatch) => async (title) => {
   const tempId = `temp-${Date.now()}`;
   const optimisticTodo = { id: tempId, title, completed: false, userId: 1 };
@@ -24,6 +34,11 @@ export const createTodo = (dispatch) => async (title) => {
   }
 };
 
+/**
+ * Updates an existing todo
+ * @param {Function} dispatch - Redux-style dispatch function
+ * @returns {Function} Async function that updates a todo
+ */
 export const updateTodo = (dispatch) => async (id, updates) => {
   dispatch({ type: types.UPDATE_TODO_START, payload: { id, updates } });
   try {
@@ -34,6 +49,11 @@ export const updateTodo = (dispatch) => async (id, updates) => {
   }
 };
 
+/**
+ * Deletes a todo
+ * @param {Function} dispatch - Redux-style dispatch function
+ * @returns {Function} Async function that deletes a todo
+ */
 export const deleteTodo = (dispatch) => async (id) => {
   dispatch({ type: types.DELETE_TODO_START, payload: { id } });
   try {
@@ -44,6 +64,11 @@ export const deleteTodo = (dispatch) => async (id) => {
   }
 };
 
+/**
+ * Clears any error state
+ * @param {Function} dispatch - Redux-style dispatch function
+ * @returns {Function} Function that clears error state
+ */
 export const clearError = (dispatch) => () => {
   dispatch({ type: types.CLEAR_ERROR });
 };

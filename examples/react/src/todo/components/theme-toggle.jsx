@@ -1,6 +1,13 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { TOGGLE_THEME } from "../constants";
 
+/**
+ * Theme toggle component for switching between light and dark modes
+ * @param {Object} props - Component props
+ * @param {Function} props.dispatch - Dispatch function for actions
+ * @param {string} props.theme - Current theme ('light' or 'dark')
+ * @returns {JSX.Element} Theme toggle button
+ */
 export function ThemeToggle({ dispatch, theme }) {
     const toggleTheme = useCallback(() => {
         dispatch({ type: TOGGLE_THEME });
