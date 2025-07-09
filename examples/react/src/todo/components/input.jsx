@@ -1,5 +1,10 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 
+/**
+ * Sanitizes user input by escaping HTML characters
+ * @param {string} string - Input string to sanitize
+ * @returns {string} Sanitized string
+ */
 const sanitize = (string) => {
     const map = {
         "&": "&amp;",
@@ -13,10 +18,26 @@ const sanitize = (string) => {
     return string.replace(reg, (match) => map[match]);
 };
 
+/**
+ * Validates minimum length requirement
+ * @param {string} value - Value to validate
+ * @param {number} min - Minimum required length
+ * @returns {boolean} Whether value meets minimum length
+ */
 const hasValidMin = (value, min) => {
     return value.length >= min;
 };
 
+/**
+ * Input component for todo creation and editing
+ * @param {Object} props - Component props
+ * @param {Function} props.onSubmit - Function called when input is submitted
+ * @param {string} props.placeholder - Input placeholder text
+ * @param {string} props.label - Accessible label for the input
+ * @param {string} props.defaultValue - Default input value
+ * @param {Function} props.onBlur - Function called when input loses focus
+ * @returns {JSX.Element} Input component
+ */
 export function Input({ onSubmit, placeholder, label, defaultValue, onBlur }) {
     const handleBlur = useCallback(() => {
         if (onBlur)

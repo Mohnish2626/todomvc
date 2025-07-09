@@ -1,9 +1,17 @@
-import { useCallback } from "react";
+import React, { useCallback } from "react";
 import { Input } from "./input";
 import { ThemeToggle } from "./theme-toggle";
 
 import { createTodo } from "../actions";
 
+/**
+ * Header component containing the app title, theme toggle, and new todo input
+ * @param {Object} props - Component props
+ * @param {Function} props.dispatch - Dispatch function for actions
+ * @param {string} props.theme - Current theme ('light' or 'dark')
+ * @param {boolean} props.creating - Whether a todo is being created
+ * @returns {JSX.Element} Header component
+ */
 export function Header({ dispatch, theme, creating }) {
     const addItem = useCallback((title) => createTodo(dispatch)(title), [dispatch]);
 

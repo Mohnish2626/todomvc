@@ -1,9 +1,16 @@
-import { useCallback, useMemo } from "react";
+import React, { useCallback, useMemo } from "react";
 import { useLocation } from "react-router-dom";
 import classnames from "classnames";
 
 import { REMOVE_COMPLETED_ITEMS } from "../constants";
 
+/**
+ * Footer component with todo count, filters, and clear completed button
+ * @param {Object} props - Component props
+ * @param {Array} props.todos - Array of todo objects
+ * @param {Function} props.dispatch - Dispatch function for actions
+ * @returns {JSX.Element|null} Footer component or null if no todos
+ */
 export function Footer({ todos, dispatch }) {
     const { pathname: route } = useLocation();
 
